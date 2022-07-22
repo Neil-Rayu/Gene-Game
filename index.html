@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Sunflower</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <div class="game">
+      <img src="background(200x1200).png" alt="" />
+
+      <div id="fieldSpot1">
+        <button
+          class="fieldSpot"
+          style="background: url(FieldSpot200.png); border: none"
+        ></button>
+      </div>
+
+      <div class="form-popup" id="myForm">
+        <form class="form-cont" onsubmit="removeOpt(event.preventDefault())">
+          <input type="image" src="flower1.png" alt="Flower 1" />
+          <input type="image" src="flower1.png" alt="Flower 2" />
+          <input type="image" src="flower1.png" alt="Flower 3" />
+        </form>
+      </div>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>

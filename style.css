@@ -40,3 +40,20 @@ ul {
 li {
   display: inline;
 }
+.micro-popup{
+  position: absolute;
+  display: flex;
+  background-color: black;
+  opacity: 90%;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.text-box{
+  display: flex;
+  flex-direction: column;
+  /* text-shadow: -.5px -.5px 0 #fff, .5px -.5px 0 #fff, -.5px .5px 0 #fff, .5px .5px 0 #fff; */
+  font-size: x-large;
+  color: white;
+}

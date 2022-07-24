@@ -3,7 +3,7 @@ let geneViewMode = false;
 
 fieldSpots[0].onclick = () => {
   if (geneViewMode) {
-    //
+    document.getElementById('microPop').style.display = 'flex';
   } else {
     document.getElementById('myForm').style.display = 'flex';
   }
@@ -20,4 +20,16 @@ function removeOpt() {
 let microscope = document.getElementById('Microscope');
 microscope.onclick = () => {
   geneViewMode = true;
+  //console.log(geneViewMode);
 };
+
+let plantList = [
+  {
+    fieldSpot: 1,
+    name: 'hello',
+  },
+];
+
+function deriveInfo(chromosome) {
+  //
+}

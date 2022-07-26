@@ -19,14 +19,14 @@ function removeOpt() {
   console.log(genePoolChromosomes);
   let spec = deriveInfo(genePoolChromosomes);
   if (spec == 0) {
-    img.src = 'flowerLiq200.png';
-    document.getElementById('flowerCont').src = 'flowerLiq200.png';
+    img.src = 'Images/flowerLiq200.png';
+    document.getElementById('flowerCont').src = 'Images/flowerLiq200.png';
   } else if (spec == 1) {
-    img.src = 'flowerTim200.png';
-    document.getElementById('flowerCont').src = 'flowerTim200.png';
+    img.src = 'Images/flowerTim200.png';
+    document.getElementById('flowerCont').src = 'Images/flowerTim200.png';
   } else {
-    img.src = 'flowerImp200.png';
-    document.getElementById('flowerCont').src = 'flowerImp200.png';
+    img.src = 'Images/flowerImp200.png';
+    document.getElementById('flowerCont').src = 'Images/flowerImp200.png';
   }
   img.style = 'position: absolute; top: 30px; left: 20px;';
   document.getElementById('fieldSpot1').appendChild(img);
@@ -83,19 +83,11 @@ function deriveInfo(chromosomes) {
     }
   });
   console.log(phenoCnt);
-  if (
-    chromosomes[0].includes('1000101') &&
-    chromosomes[1].includes('1000101') &&
-    chromosomes[2].includes('1000101')
-  ) {
-    species = 'Legendary';
+  if (chromosomes[0].includes('1000101') && phenoCnt >= 13) {
+    species = 'Fabularis';
     traits = '???';
-  } else if (
-    chromosomes[0].includes('110100100') &&
-    chromosomes[1].includes('110100100') &&
-    chromosomes[2].includes('110100100')
-  ) {
-    species = 'Uber Legendary';
+  } else if (chromosomes[0].includes('110100100') && phenoCnt > 13) {
+    species = 'Ultimus Fabularis';
     traits = '???';
   } else if (traitCnt <= 1) {
     species = 'Liquidum';

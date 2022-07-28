@@ -15,6 +15,7 @@ body {
   left: 20px;
   z-index: 1;
 }
+
 .form-popup {
   display: none;
   width: 100%;
@@ -58,4 +59,41 @@ li {
   /* text-shadow: -.5px -.5px 0 #fff, .5px -.5px 0 #fff, -.5px .5px 0 #fff, .5px .5px 0 #fff; */
   font-size: x-large;
   color: white;
+}
+
+#wildSpot1 {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  top: 50px;
+  left: 20px;
+  background: url(Images/FieldSpot200.png);
+}
+
+#wildSpot2{
+ width: 200px;
+  height: 200px;
+  position: absolute;
+  top: 50px;
+  left: 230px;
+  background: url(Images/FieldSpot200.png);
+}
+
+#wildSpot3 {
+ width: 200px;
+  height: 200px;
+  position: absolute;
+  top: 50px;
+  left: 440px;
+  background: url(Images/FieldSpot200.png);
+}
+
+#nightScreen {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0%;
+  z-index: 2;
 }

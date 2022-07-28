@@ -9,26 +9,16 @@
   </head>
   <body>
     <a href="index.html">Home</a>
+    <span id="timer">Hello</span>
+    <button onclick="clearInt()"></button>
     <div class="game">
+      <div id="nightScreen"></div>
       <img src="Images/background(200x1200).png" alt="" />
-      <div id="wildSpot1">
-        <button
-          class="fieldSpot"
-          style="background: url(Images/FieldSpot200.png); border: none"
-        ></button>
-      </div>
-      <div id="wildSpot1">
-        <button
-          class="fieldSpot"
-          style="background: url(Images/FieldSpot200.png); border: none"
-        ></button>
-      </div>
-      <div id="wildSpot1">
-        <button
-          class="fieldSpot"
-          style="background: url(Images/FieldSpot200.png); border: none"
-        ></button>
-      </div>
+      <div id="wildSpot1"><img src="Images/flowerLiq200.png" alt="" /></div>
+      <div id="wildSpot2"><img src="Images/flowerLiq200.png" alt="" /></div>
+      <div id="wildSpot3"></div>
     </div>
+
+    <script src="wildLands.js"></script>
   </body>
 </html>

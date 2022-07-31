@@ -10,13 +10,59 @@
   <body>
     <a href="index.html">Home</a>
     <span id="timer">Hello</span>
-    <button onclick="clearInt()"></button>
+    <button onclick="clearInt()">Stop</button>
+    <button>Microscope</button>
     <div class="game">
       <div id="nightScreen"></div>
       <img src="Images/background(200x1200).png" alt="" />
-      <div id="wildSpot1"><img src="Images/flowerLiq200.png" alt="" /></div>
-      <div id="wildSpot2"><img src="Images/flowerLiq200.png" alt="" /></div>
-      <div id="wildSpot3"></div>
+      <div id="wildSpot1" onclick="spotClick(0)">
+        <img class="flowerImg" src="Images/flowerLiq200.png" alt="" />
+      </div>
+      <div id="wildSpot2" onclick="spotClick(1)">
+        <img class="flowerImg" src="Images/flowerLiq200.png" alt="" />
+      </div>
+      <div id="wildSpot3" onclick="spotClick(2)">
+        <img class="flowerImg" src="Images/flowerLiq200.png" alt="" />
+      </div>
+      <div id="wildSpot4" onclick="spotClick(3)">
+        <img class="flowerImg" src="Images/flowerLiq200.png" alt="" />
+      </div>
+      <div id="wildSpot5" onclick="spotClick(4)">
+        <img class="flowerImg" src="Images/flowerLiq200.png" alt="" />
+      </div>
+      <div id="wildSpot6" onclick="spotClick(5)">
+        <img class="flowerImg" src="Images/flowerLiq200.png" alt="" />
+      </div>
+      <div id="wildSpot7" onclick="spotClick(6)">
+        <img class="flowerImg" src="Images/flowerLiq200.png" alt="" />
+      </div>
+      <div id="wildSpot8" onclick="spotClick(7)">
+        <img class="flowerImg" src="Images/flowerLiq200.png" alt="" />
+      </div>
+      <div id="wildSpot9" onclick="spotClick(8)">
+        <img class="flowerImg" src="Images/flowerLiq200.png" alt="" />
+      </div>
+      <div id="wildSpot10" onclick="spotClick(9)">
+        <img class="flowerImg" src="Images/flowerLiq200.png" alt="" />
+      </div>
+      <div class="micro-popup" id="microPopWild">
+        <div>
+          <img id="flowerCont" src="Images/flowerLiq200.png" alt="flower" />
+        </div>
+        <div class="text-box">
+          <span id="species">Species:</span>
+          <span id="traits">Traits:</span>
+          <span id="chromosome">Chromosome:</span>
+          <span id="fitness">Fitness:</span>
+          <span id="generation">Generation:</span>
+          <!-- <span id="rarity"></span> -->
+          <button onclick="docClick()">Copy To Research Notes?</button>
+        </div>
+      </div>
+      <!-- <div class="notebook">
+        <button></button>
+        <div class="content-holer"></div>
+      </div> -->
     </div>
 
     <script src="wildLands.js"></script>

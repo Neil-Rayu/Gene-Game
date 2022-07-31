@@ -2,6 +2,9 @@ let shade = Math.random() * 2 - 1;
 let soilHealth = Math.random() * 2 - 1;
 let birdCnt = Math.random();
 let waterFall = Math.random() * 2 - 1;
+let manaLevel;
+let weedCnt;
+let seasonMulti;
 function naturalFitness(chromosomes) {
   let heightCnt = 0;
   let seedCnt = 0;
@@ -112,16 +115,16 @@ NaturalGeneticAlgorithm.prototype.crossover = function (
 };
 NaturalGeneticAlgorithm.prototype.createPool = function (fitness, length) {
   // GENERATE INITIAL CHROMOSOMES
-  let genePoolChromosomes = [[], []];
+  let genePoolChromosomes = [[], [], [], [], [], [], [], [], [], []];
   let genePoolFitness = [];
   //Fill starting sunflower chromosomes
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 10; i++) {
     for (let j = 0; j < 3; j++) {
       genePoolChromosomes[i].push(this.generate(length));
     }
   }
   //Get fitness for starting pool
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 10; i++) {
     genePoolFitness[i] = fitness(genePoolChromosomes[i]);
     // this.simulateApperance(
     //   [genePoolChromosomes[i][0], genePoolChromosomes[i][1]],
@@ -137,8 +140,8 @@ NaturalGeneticAlgorithm.prototype.naturalRun = function (
 ) {
   console.log(genePoolChromosomes, genePoolFitness); //CONSOLE LOG!!
   //for (let gen = 0; gen < iterations; gen++) {
-  let tempC = [[], [], [], [], [], []]; //new temp chromosome list
-  for (let i = 0; i < 2; i += 2) {
+  let tempC = [[], [], [], [], [], [], [], [], [], [], [], []]; //new temp chromosome list
+  for (let i = 0; i < 10; i += 2) {
     let cross = this.select(genePoolChromosomes, genePoolFitness); //Select Two
     //console.log(cross); //CONSOLE LOG!!
     for (let index = 0; index < 3; index++) {
@@ -153,7 +156,7 @@ NaturalGeneticAlgorithm.prototype.naturalRun = function (
   }
   //console.log(tempC);
   genePoolChromosomes = tempC;
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 10; i++) {
     genePoolFitness[i] = fitness(genePoolChromosomes[i]);
     // this.simulateApperance(
     //   [genePoolChromosomes[i][0], genePoolChromosomes[i][1]],
@@ -209,4 +212,112 @@ function clearInt() {
     clearInterval(interval);
   }
   pause = !pause;
+}
+//Derive Info
+function deriveInfo(chromosomes) {
+  let species;
+  let traits;
+  let chromosome;
+  let fitness;
+  let generation;
+  let traitCnt = 0;
+  let num = 0;
+  chromosomes[0].split('').forEach((base) => {
+    if (Number(base) == 1) {
+      traitCnt++;
+    }
+  });
+  console.log(traitCnt);
+  let phenoCnt = 0;
+  chromosomes[1].split('').forEach((base) => {
+    if (Number(base) == 1) {
+      phenoCnt++;
+    }
+  });
+  chromosomes[2].split('').forEach((base) => {
+    if (Number(base) == 1) {
+      phenoCnt++;
+    }
+  });
+  console.log(phenoCnt);
+  if (chromosomes[0].includes('1000101') && phenoCnt >= 13) {
+    species = 'Fabularis';
+    traits = '???';
+  } else if (chromosomes[0].includes('110100100') && phenoCnt > 13) {
+    species = 'Ultimus Fabularis';
+    traits = '???';
+  } else if (traitCnt <= 1) {
+    species = 'Liquidum';
+    traits = 'Patient, Slow, Calm';
+  } else if (traitCnt <= 3) {
+    species = 'Liquidum Timidus';
+    traits = 'Slow, Reserved, Fragile';
+  } else if (traitCnt <= 5) {
+    species = 'Timidus';
+    traits = 'Reserved, Fragile, Chaotic';
+    num = 1;
+  } else if (traitCnt <= 7) {
+    species = 'Impetus Timidus';
+    traits = 'Irritable, Morally Deprived, Chaotic';
+    num = 2;
+  } else if (traitCnt <= 9) {
+    species = 'Inpetus';
+    traits = 'Irritable, Frustrated, Honorable';
+    num = 2;
+  }
+  if (phenoCnt <= 7) {
+    species += ' Brevis';
+    traits += ', Small';
+  } else if (phenoCnt <= 11) {
+    species += ' Modus';
+    traits += ', Medium Size';
+  } else if (phenoCnt <= 19) {
+    species += ' Magnus';
+    traits += ', Large';
+  } else {
+    species += ' Gigas';
+    traits += ', Giant';
+  }
+  console.log(species);
+  document.getElementById('species').innerText = 'Species: ' + species;
+  document.getElementById('traits').innerText = 'Traits: ' + traits;
+  document.getElementById('chromosome').innerText =
+    'Chromosomes: ' +
+    chromosomes[0] +
+    ', ' +
+    chromosomes[1] +
+    ', ' +
+    chromosomes[2];
+  document.getElementById('fitness').innerText = 'Fitness: ???';
+  document.getElementById('generation').innerText = 'Generation: N/A';
+  //document.getElementById('rarity').innerText = Math.pow(.5, traitCnt)
+  return num;
+}
+
+//Set Up click events for each flower
+
+function spotClick(spotNum) {
+  let as = deriveInfo(pool[0][spotNum]);
+  console.log(as);
+  document.getElementById('microPopWild').style.display = 'flex';
+}
+
+function docClick() {
+  document.getElementById('microPopWild').style.display = 'none';
+}
+
+function updateImage(num) {
+  let img = document.getElementsByClassName('flowerImg');
+  for (let i = 0; i < img.length; i++) {
+    if (num == 0) {
+      img[i].src = 'Images/flowerLiq200.png';
+      document.getElementById('flowerCont').src = 'Images/flowerLiq200.png';
+    } else if (num == 1) {
+      img[i].src = 'Images/flowerTim200.png';
+      document.getElementById('flowerCont').src = 'Images/flowerTim200.png';
+    } else {
+      img[i].src = 'Images/flowerImp200.png';
+      document.getElementById('flowerCont').src = 'Images/flowerImp200.png';
+    }
+  }
 }

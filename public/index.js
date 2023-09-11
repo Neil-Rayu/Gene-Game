@@ -1,7 +1,25 @@
+import { auth, provider } from './firebase';
+
+let button = document.getElementById('sign');
+
+let signedIn = false;
+button.onclick = function sign() {
+  if (signedIn) {
+    signOut(auth);
+    signedIn = false;
+    button.innerText = 'Sign In';
+  } else {
+    signInWithPopup(auth, provider);
+    signedIn = true;
+    button.innerText = 'Sign Out';
+  }
+};
+
 fieldSpots = document.getElementsByClassName('fieldSpot');
 let geneViewMode = false;
 
 fieldSpots[0].onclick = () => {
+  document.getElementsByClassName('tut-text')[0].style.display = 'none';
   if (geneViewMode) {
     document.getElementById('microPop').style.display = 'flex';
   } else {
@@ -42,6 +60,125 @@ function generate(length) {
     }
   }
   return chromosome;
+}
+
+function naturalFitness(chromosomes) {
+  let traitCnt = 0;
+  let seedCnt = 0;
+  let heightCnt = 0;
+  let rootCnt = 0;
+  chromosomes[0].split('').forEach((base) => {
+    if (Number(base) == 1) {
+      traitCnt++;
+    }
+  });
+  // chromosomes[1].forEach(base => {
+  //       if(base == 1){
+  //         seedCnt++;
+  //       }
+  // });
+  chromosomes[1].split('').forEach((base) => {
+    if (Number(base) == 1) {
+      heightCnt++;
+    }
+  });
+  chromosomes[2].split('').forEach((base) => {
+    if (Number(base) == 1) {
+      rootCnt++;
+    }
+  });
+  if (traitCnt <= 3) {
+    manaLevel += 3;
+  } else if (traitCnt <= 5) {
+    manaLevel += 1;
+  } else if (traitCnt <= 7) {
+    manaLevel += 2;
+  } else if (traitCnt <= 9) {
+    manaLevel += 3;
+  } else {
+    manaLevel += 4;
+  }
+
+  let multi = 1;
+  if (shade > 0) {
+    multi = 2;
+  }
+  let divi = 2;
+  if (soilHealth > 0) {
+    divi = 1;
+  }
+  let waterMulti = 0.3;
+  if (waterFall > 0) {
+    waterMulti = 2;
+  }
+  let manaMulti = 1;
+  let seasonT = document.getElementById('season');
+  if (season < 3) {
+    seasonT.innerText = 'Season: Summer';
+
+    if (traitCnt <= 3) {
+      manaMulti = 0.75 * seasonMulti;
+    } else if (traitCnt <= 5) {
+      manaMulti = 1 * seasonMulti;
+    } else if (traitCnt <= 7) {
+      manaMulti = 1.5 * seasonMulti;
+    } else if (traitCnt <= 9) {
+      manaMulti = 2 * seasonMulti;
+    } else {
+      manaMulti = 0.5 * seasonMulti;
+    }
+  } else if (season <= 5) {
+    seasonT.innerText = 'Season: Fall';
+
+    if (traitCnt <= 3) {
+      manaMulti = 1.25 * seasonMulti;
+    } else if (traitCnt <= 5) {
+      manaMulti = 1 * seasonMulti;
+    } else if (traitCnt <= 7) {
+      manaMulti = 0.8 * seasonMulti;
+    } else if (traitCnt <= 9) {
+      manaMulti = 0.7 * seasonMulti;
+    } else {
+      manaMulti = 1.5 * seasonMulti;
+    }
+  } else if (season < 9) {
+    seasonT.innerText = 'Season: Winter';
+
+    if (traitCnt <= 3) {
+      manaMulti = 0.8 * seasonMulti;
+    } else if (traitCnt <= 5) {
+      manaMulti = 1 * seasonMulti;
+    } else if (traitCnt <= 7) {
+      manaMulti = 0.8 * seasonMulti;
+    } else if (traitCnt <= 9) {
+      manaMulti = 0.5 * seasonMulti;
+    } else {
+      manaMulti = 1 * seasonMulti;
+    }
+  } else {
+    seasonT.innerText = 'Season: Spring';
+
+    if (traitCnt <= 3) {
+      manaMulti = 1.25 * seasonMulti;
+    } else if (traitCnt <= 5) {
+      manaMulti = 1 * seasonMulti;
+    } else if (traitCnt <= 7) {
+      manaMulti = 1.25 * seasonMulti;
+    } else if (traitCnt <= 9) {
+      manaMulti = 1.5 * seasonMulti;
+    } else {
+      manaMulti = 2 * seasonMulti;
+    }
+  }
+  console.log(manaMulti);
+
+  let fitness =
+    heightCnt * shade * multi +
+    (heightCnt * soilHealth) / divi +
+    rootCnt * soilHealth * 2 +
+    heightCnt * ((-1 * divi) / 2) +
+    manaLevel * manaMulti;
+  return fitness;
 }
 
 let microscope = document.getElementById('Microscope');
@@ -131,7 +268,7 @@ function deriveInfo(chromosomes) {
     chromosomes[1] +
     ', ' +
     chromosomes[2];
-  document.getElementById('fitness').innerText = 'Fitness: ???';
+  document.getElementById('fitness').innerText = 'Fitness: '; //+ naturalFitness(chromosomes).toFixed(2);
   document.getElementById('generation').innerText = 'Generation: N/A';
   //document.getElementById('rarity').innerText = Math.pow(.5, traitCnt)
   return num;

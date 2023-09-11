@@ -8,10 +8,18 @@
     <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <a href="index.html">Home</a>
-    <span id="timer">Hello</span>
-    <button onclick="clearInt()">Stop</button>
-    <button>Microscope</button>
+    <div class="top-bar">
+      <div class="left-side">
+        <a href="index.html">Home</a>
+        <span id="timer">0:00</span>
+        <button onclick="clearInt()">Stop</button>
+        <span id="season">Season: </span>
+      </div>
+      <div class="right-side">
+        <span id="mana">Mana: </span>
+        <button>Shop</button>
+      </div>
+    </div>
     <div class="game">
       <div id="nightScreen"></div>
       <img src="Images/background(200x1200).png" alt="" />

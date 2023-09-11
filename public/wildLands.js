@@ -2,17 +2,20 @@ let shade = Math.random() * 2 - 1;
 let soilHealth = Math.random() * 2 - 1;
 let birdCnt = Math.random();
 let waterFall = Math.random() * 2 - 1;
-let manaLevel;
+let manaLevel = Math.round(Math.random() * 10);
 let weedCnt;
-let seasonMulti;
+let seasonMulti = Math.random() / 2 + 1;
+let type = 0;
+let season = 0;
+console.log(shade, soilHealth, waterFall, seasonMulti);
 function naturalFitness(chromosomes) {
-  let heightCnt = 0;
+  let traitCnt = 0;
   let seedCnt = 0;
-  let curveCnt = 0;
+  let heightCnt = 0;
   let rootCnt = 0;
   chromosomes[0].split('').forEach((base) => {
     if (Number(base) == 1) {
-      heightCnt++;
+      traitCnt++;
     }
   });
   // chromosomes[1].forEach(base => {
@@ -22,7 +25,7 @@ function naturalFitness(chromosomes) {
   // });
   chromosomes[1].split('').forEach((base) => {
     if (Number(base) == 1) {
-      curveCnt++;
+      heightCnt++;
     }
   });
   chromosomes[2].split('').forEach((base) => {
@@ -30,6 +33,17 @@ function naturalFitness(chromosomes) {
       rootCnt++;
     }
   });
+  if (traitCnt <= 3) {
+    manaLevel += 3;
+  } else if (traitCnt <= 5) {
+    manaLevel += 1;
+  } else if (traitCnt <= 7) {
+    manaLevel += 2;
+  } else if (traitCnt <= 9) {
+    manaLevel += 3;
+  } else {
+    manaLevel += 4;
+  }
 
   let multi = 1;
   if (shade > 0) {
@@ -43,14 +57,73 @@ function naturalFitness(chromosomes) {
   if (waterFall > 0) {
     waterMulti = 2;
   }
+  let manaMulti = 1;
+  let seasonT = document.getElementById('season');
+  if (season < 3) {
+    seasonT.innerText = 'Season: Summer';
+
+    if (traitCnt <= 3) {
+      manaMulti = 0.75 * seasonMulti;
+    } else if (traitCnt <= 5) {
+      manaMulti = 1 * seasonMulti;
+    } else if (traitCnt <= 7) {
+      manaMulti = 1.5 * seasonMulti;
+    } else if (traitCnt <= 9) {
+      manaMulti = 2 * seasonMulti;
+    } else {
+      manaMulti = 0.5 * seasonMulti;
+    }
+  } else if (season <= 5) {
+    seasonT.innerText = 'Season: Fall';
+
+    if (traitCnt <= 3) {
+      manaMulti = 1.25 * seasonMulti;
+    } else if (traitCnt <= 5) {
+      manaMulti = 1 * seasonMulti;
+    } else if (traitCnt <= 7) {
+      manaMulti = 0.8 * seasonMulti;
+    } else if (traitCnt <= 9) {
+      manaMulti = 0.7 * seasonMulti;
+    } else {
+      manaMulti = 1.5 * seasonMulti;
+    }
+  } else if (season < 9) {
+    seasonT.innerText = 'Season: Winter';
+
+    if (traitCnt <= 3) {
+      manaMulti = 0.8 * seasonMulti;
+    } else if (traitCnt <= 5) {
+      manaMulti = 1 * seasonMulti;
+    } else if (traitCnt <= 7) {
+      manaMulti = 0.8 * seasonMulti;
+    } else if (traitCnt <= 9) {
+      manaMulti = 0.5 * seasonMulti;
+    } else {
+      manaMulti = 1 * seasonMulti;
+    }
+  } else {
+    seasonT.innerText = 'Season: Spring';
+
+    if (traitCnt <= 3) {
+      manaMulti = 1.25 * seasonMulti;
+    } else if (traitCnt <= 5) {
+      manaMulti = 1 * seasonMulti;
+    } else if (traitCnt <= 7) {
+      manaMulti = 1.25 * seasonMulti;
+    } else if (traitCnt <= 9) {
+      manaMulti = 1.5 * seasonMulti;
+    } else {
+      manaMulti = 2 * seasonMulti;
+    }
+  }
+  console.log(manaMulti);
 
   let fitness =
     heightCnt * shade * multi +
     (heightCnt * soilHealth) / divi +
     rootCnt * soilHealth * 2 +
-    heightCnt * ((-1 * birdCnt) / 2) +
-    (curveCnt * birdCnt) / 2 +
-    curveCnt * waterMulti * waterFall;
+    heightCnt * ((-1 * divi) / 2) +
+    manaLevel * manaMulti;
   return fitness;
 }
 var NaturalGeneticAlgorithm = function () {};
@@ -131,6 +204,11 @@ NaturalGeneticAlgorithm.prototype.createPool = function (fitness, length) {
     //   genePoolFitness[i]
     // );
   }
+  let sum = 0;
+  genePoolFitness.forEach((e) => {
+    sum += e;
+  });
+  document.getElementById('mana').innerText = sum.toFixed(3);
   return [genePoolChromosomes, genePoolFitness];
 };
 NaturalGeneticAlgorithm.prototype.naturalRun = function (
@@ -168,6 +246,8 @@ NaturalGeneticAlgorithm.prototype.naturalRun = function (
   genePoolFitness.forEach((e) => {
     sum += e;
   });
+  console.log('sum ' + sum);
+  document.getElementById('mana').innerText = sum.toFixed(3);
   //console.log(sum / 10);
   if (genePoolFitness.includes(1)) {
     console.log('HELL YEAHHHS');
@@ -199,6 +279,7 @@ function timer() {
     pool = nG.naturalRun(naturalFitness, pool[0], pool[1]);
     console.log(pool);
     time = 0;
+    season++;
   }
   text.innerText = time;
   time++;
@@ -214,11 +295,10 @@ function clearInt() {
   pause = !pause;
 }
 //Derive Info
-function deriveInfo(chromosomes) {
+function deriveInfo(chromosomes, fitness) {
   let species;
   let traits;
   let chromosome;
-  let fitness;
   let generation;
   let traitCnt = 0;
   let num = 0;
@@ -288,7 +368,8 @@ function deriveInfo(chromosomes) {
     chromosomes[1] +
     ', ' +
     chromosomes[2];
-  document.getElementById('fitness').innerText = 'Fitness: ???';
+  document.getElementById('fitness').innerText =
+    'Fitness: ' + fitness.toFixed(2);
   document.getElementById('generation').innerText = 'Generation: N/A';
   //document.getElementById('rarity').innerText = Math.pow(.5, traitCnt)
   return num;
@@ -297,7 +378,7 @@ function deriveInfo(chromosomes) {
 //Set Up click events for each flower
 
 function spotClick(spotNum) {
-  let as = deriveInfo(pool[0][spotNum]);
+  let as = deriveInfo(pool[0][spotNum], pool[1][spotNum]);
   console.log(as);
   document.getElementById('microPopWild').style.display = 'flex';
 }
